@@ -1,12 +1,16 @@
-package com.esig.br.demo.model;
+package com.esig.br.demo.domain.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.esig.br.demo.domain.types.Prioridade;
+import com.esig.br.demo.domain.types.Situacao;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,17 +22,14 @@ import lombok.NoArgsConstructor;
 @Entity(name = "Tarefa")
 public class Tarefa {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
     private String titulo;
-    @Column
     private String descricao;
-    @Column
-    private String responsavel;
-    @Column
-    private String prioridade;
-    @Column
+    @ManyToOne
+    @JoinColumn
+    private Responsavel responsavel;
+    private Prioridade prioridade;
+    private Situacao situacao;
     private Date deadline;
 }
