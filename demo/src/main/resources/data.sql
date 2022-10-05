@@ -9,6 +9,6 @@
 --     );
 INSERT INTO tarefa (ID,titulo,descricao,responsavel,prioridade,deadline)
 VALUES 
-(1, 'Tarefa01', 'Uma descrição da tarefa01', 'Paulo', '1', 'segunda'),
-(2, 'Tarefa02', 'Uma descrição da tarefa02', 'Paulo', '2', 'segunda'),
-(3, 'Tarefa03', 'Uma descrição da tarefa03', 'Paulo', '3', 'segunda');
+(1, 'Tarefa01', 'Uma descrição da tarefa01', 'Paulo', '1', '2022-10-31 00:00:00	'),
+(2, 'Tarefa02', 'Uma descrição da tarefa02', 'Paulo', '2', '2022-10-31 00:00:00	'),
+(3, 'Tarefa03', 'Uma descrição da tarefa03', 'Paulo', '3', '2022-10-31 00:00:00	');

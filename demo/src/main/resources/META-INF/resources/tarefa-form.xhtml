@@ -22,9 +22,11 @@
                     
                     <p:outputLabel for="prioridade" value="Prioridade: " />
                     <p:inputText id="prioridade" value="#{tarefaController.tarefa.prioridade}" />
-                    
-                    <p:outputLabel for="deadline" value="Deadline: " />
-                    <p:inputText id="deadline" value="#{tarefaController.tarefa.deadline}" />
+                
+                    <div class="field col-12 md:col-4">
+                        <p:outputLabel for="deadline" value="deadline"/>
+                        <p:datePicker id="deadline" value="#{tarefaController.tarefa.deadline}" />
+                    </div>
                     
                     <h:commandButton value="Save" action="#{tarefaController.save}" />
                 </h:panelGrid>

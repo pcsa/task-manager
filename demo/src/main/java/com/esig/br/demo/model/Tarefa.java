@@ -1,5 +1,7 @@
 package com.esig.br.demo.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
@@ -28,5 +30,5 @@ public class Tarefa {
     @Column
     private String prioridade;
     @Column
-    private String deadline;
+    private Date deadline;
 }
