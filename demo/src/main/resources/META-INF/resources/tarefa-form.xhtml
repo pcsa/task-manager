@@ -17,18 +17,28 @@
                     <p:outputLabel for="descricao" value="Descrição: " />
                     <p:inputText id="descricao" value="#{tarefaController.tarefa.descricao}" />
                     
-                    <p:outputLabel for="responsavel" value="Responsável: " />
-                    <p:inputText id="responsavel" value="#{tarefaController.tarefa.responsavel}" />
-                    
-                    <p:outputLabel for="prioridade" value="Prioridade: " />
-                    <p:inputText id="prioridade" value="#{tarefaController.tarefa.prioridade}" />
+                    <p:outputLabel for="@next" value="Responsável"/>
+                    <p:selectOneMenu id="responsavel" value="#{tarefaController.tarefa.responsavel}" effect="fold" editable="true" converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Select" itemValue=""/>
+                        <f:selectItems value="#{tarefaController.responsaveis}" var="responsavel" itemValue="#{responsavel}" itemLabel="#{responsavel.nome}"/>
+                    </p:selectOneMenu>
+
+                    <div class="field col-12 md:col-4">
+                        <p:outputLabel for="@next" value="Prioridade"/>
+                        <p:selectOneMenu id="prioridade" value="#{tarefaController.tarefa.prioridade}"
+                                        hideNoSelectionOption="#{not empty tarefaController.tarefa.prioridade}">
+                            <p:ajax update="@this" process="@this"/>
+                            <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{prioridadeController.options}"/>
+                        </p:selectOneMenu>
+                    </div>
                 
                     <div class="field col-12 md:col-4">
                         <p:outputLabel for="deadline" value="deadline"/>
                         <p:datePicker id="deadline" value="#{tarefaController.tarefa.deadline}" />
                     </div>
                     
-                    <h:commandButton value="Save" action="#{tarefaController.save}" />
+                    <h:commandButton value="Salvar" action="#{tarefaController.salvar}" />
                 </h:panelGrid>
             </p:panel>
         </h:form>
