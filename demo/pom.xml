@@ -75,6 +75,11 @@
             <artifactId>rewrite-spring-boot-starter</artifactId>
         </dependency>
 		<dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omnifaces</artifactId>
+            <version>4.0</version>
+        </dependency>
+		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>11.0.0</version>

@@ -13,8 +13,10 @@ import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.esig.br.demo.domain.model.Responsavel;
 import com.esig.br.demo.domain.model.Tarefa;
 import com.esig.br.demo.domain.types.Situacao;
+import com.esig.br.demo.repository.ResponsavelRepository;
 import com.esig.br.demo.repository.TarefaRepository;
 
 import lombok.Getter;
@@ -23,23 +25,26 @@ import lombok.Setter;
 @Component
 @ViewScoped
 @Join(path = "/nova-tarefa", to = "/tarefa-form.jsf")
+@Getter
+@Setter
 public class TarefaController implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Autowired
     private TarefaRepository tarefaRepository;
+
+    @Autowired
+    private ResponsavelRepository responsavelRepository;
     
-    @Getter
-    @Setter
     private Tarefa tarefa = new Tarefa();
-    
-    @Getter
-    @Setter
+
     private List<Tarefa> tarefas;
+    private List<Responsavel> responsaveis;
     
     @PostConstruct
     public void loadData() {
         tarefas = tarefaRepository.findAll();
+        responsaveis = responsavelRepository.findAll();
     }
 
     public String salvar() {
