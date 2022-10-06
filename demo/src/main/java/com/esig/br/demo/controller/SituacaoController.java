@@ -1,11 +1,12 @@
 package com.esig.br.demo.controller;
 
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
+
+import org.springframework.stereotype.Component;
 
 import com.esig.br.demo.domain.types.Situacao;
 
-@Named
+@Component
 public class SituacaoController {
     public SelectItem[] getOptions() {
         SelectItem[] items = new SelectItem[Situacao.values().length];

@@ -54,12 +54,20 @@
                             <p:inputText id="descricao" value="#{tarefaController.tarefa.descricao}" />
                         </div>
                         <div class="field">
-                            <p:outputLabel for="responsavel" value="Responsável: " />
-                            <p:inputText id="responsavel" value="#{tarefaController.tarefa.responsavel}" />
+                            <p:outputLabel for="@next" value="Responsável"/>
+                            <p:selectOneMenu id="responsavel" value="#{tarefaController.tarefa.responsavel}" effect="fold" editable="true" >
+                                <f:selectItem itemLabel="Select" itemValue=""/>
+                                <f:selectItems value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" itemLabel="#{responsavel.nome}" converter="responsavelConverter"/>
+                            </p:selectOneMenu>
                         </div>
                         <div class="field">
-                            <p:outputLabel for="prioridade" value="Prioridade: " />
-                            <p:inputText id="prioridade" value="#{tarefaController.tarefa.prioridade}" />
+                            <p:outputLabel for="@next" value="Prioridade"/>
+                            <p:selectOneMenu id="prioridade" value="#{tarefaController.tarefa.prioridade}"
+                                            hideNoSelectionOption="#{not empty tarefaController.tarefa.prioridade}">
+                                <p:ajax update="@this" process="@this"/>
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{prioridadeController.options}"/>
+                            </p:selectOneMenu>
                         </div>
                         <div class="field">
                             <p:outputLabel for="deadline" value="deadline"/>

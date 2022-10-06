@@ -13,48 +13,48 @@ import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esig.br.demo.domain.model.Responsavel;
 import com.esig.br.demo.domain.model.Tarefa;
 import com.esig.br.demo.domain.types.Situacao;
-import com.esig.br.demo.repository.ResponsavelRepository;
 import com.esig.br.demo.repository.TarefaRepository;
 
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Component
 @ViewScoped
 @Join(path = "/nova-tarefa", to = "/tarefa-form.jsf")
-@Getter
-@Setter
-public class TarefaController implements Serializable{
+public class TarefaController implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final String UPDATE_JSF_MENSSAGE = "form:messages";
+    private static final String UPDATE_JSF_LISTTABLE = "form:listaDeTarefas";
     
     @Autowired
-    private TarefaRepository tarefaRepository;
-
-    @Autowired
-    private ResponsavelRepository responsavelRepository;
+    private transient TarefaRepository tarefaRepository;
     
-    private Tarefa tarefa = new Tarefa();
+    @Autowired
+    private transient ResponsavelController responsavelController;
 
-    private List<Tarefa> tarefas;
-    private List<Responsavel> responsaveis;
+    @Getter @Setter
+    private transient Tarefa tarefa = new Tarefa();
+    @Getter
+    private transient List<Tarefa> tarefas;
     
     @PostConstruct
     public void loadData() {
         tarefas = tarefaRepository.findAll();
-        responsaveis = responsavelRepository.findAll();
     }
 
     public String salvar() {
         boolean updated = tarefa.getId() != null;
+        tarefa.setResponsavel(responsavelController.saveOrUpdateAndFlush(tarefa.getResponsavel()));
+        tarefa.setSituacao(Situacao.EM_ANDAMENTO);
         tarefaRepository.save(tarefa);
         tarefa = new Tarefa();
         if(updated){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa Atualizada"));
             PrimeFaces.current().executeScript("PF('modalEditar').hide()");
-            PrimeFaces.current().ajax().update("form:messages", "form:listaDeTarefas");
+            PrimeFaces.current().ajax().update(UPDATE_JSF_MENSSAGE, UPDATE_JSF_LISTTABLE);
         }
         return "/tarefa-list.xhtml?faces-redirect=true";
     }
@@ -64,7 +64,7 @@ public class TarefaController implements Serializable{
         tarefas.remove(tarefa);
         tarefa = new Tarefa();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa Excluida"));
-        PrimeFaces.current().ajax().update("form:messages", "form:listaDeTarefas");
+        PrimeFaces.current().ajax().update(UPDATE_JSF_MENSSAGE, UPDATE_JSF_LISTTABLE);
     }
 
     public void concluir() {
@@ -72,6 +72,6 @@ public class TarefaController implements Serializable{
         tarefaRepository.save(tarefa);
         tarefa = new Tarefa();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa Concluida"));
-        PrimeFaces.current().ajax().update("form:messages", "form:listaDeTarefas");
+        PrimeFaces.current().ajax().update(UPDATE_JSF_MENSSAGE, UPDATE_JSF_LISTTABLE);
     }
 }

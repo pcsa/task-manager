@@ -1,11 +1,12 @@
 package com.esig.br.demo.controller;
 
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
+
+import org.springframework.stereotype.Component;
 
 import com.esig.br.demo.domain.types.Prioridade;
 
-@Named
+@Component
 public class PrioridadeController {
     public SelectItem[] getOptions() {
         SelectItem[] items = new SelectItem[Prioridade.values().length];
