@@ -20,7 +20,7 @@
                     <p:outputLabel for="@next" value="Responsável"/>
                     <p:selectOneMenu id="responsavel" value="#{tarefaController.tarefa.responsavel}" effect="fold" editable="true" >
                         <f:selectItem itemLabel="Select" itemValue=""/>
-                        <f:selectItems value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" itemLabel="#{responsavel.nome}" converter="responsavelConverter"/>
+                        <f:selectItems value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" itemLabel="#{responsavel.nome}" />
                     </p:selectOneMenu>
 
                     <div class="field col-12 md:col-4">

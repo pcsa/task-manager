@@ -7,9 +7,41 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="layout.xhtml">
     <ui:define name="content">
+
+        <h:form id="filtragemDeTarefas">
+
+            <p:outputLabel for="@next" value="Número: " />
+            <p:inputNumber id="numeroFiltro" value="#{filtroBean.tarefa.id}" />
+
+            <p:outputLabel for="@next" value="Título/Descrição: " />
+            <p:inputText id="descricaoFiltro" value="#{filtroBean.tarefa.descricao}" />
+
+            <div class="field col-12 md:col-4">
+                <p:outputLabel for="@next" value="Responsável: "/>
+                <p:selectOneMenu id="responsavelFiltro" value="#{filtroBean.tarefa.responsavel}" effect="fold" editable="true">
+                    <f:selectItem itemLabel="Select" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems  value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" 
+                                    itemLabel="#{responsavel.nome}" />
+                </p:selectOneMenu>
+            </div>
+
+            <div class="field col-12 md:col-4">
+                <p:outputLabel for="@next" value="Situação: "/>
+                <p:selectOneMenu id="situacaoFiltro" value="#{filtroBean.tarefa.situacao}">
+                    <f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{situacaoController.options}"/>
+                </p:selectOneMenu>
+            </div>
+
+            <p:commandButton value="Buscar Tarefas" update=":form:listaDeTarefas"> 
+                <f:setPropertyActionListener value="#{filtroBean.tarefas}" target="#{tarefaController.tarefasFiltradas}" />
+            </p:commandButton>
+        </h:form>
+
         <h:form id="form">
             <p:growl id="messages" showDetail="true" />
-            <p:dataTable id="listaDeTarefas" var="tarefa" value="#{tarefaController.tarefas}" rowKey="#{tarefa.id}" stripedRows="true">
+            <p:dataTable id="listaDeTarefas" var="tarefa" value="#{tarefaController.tarefasFiltradas}" rowKey="#{tarefa.id}" 
+            stripedRows="true" emptyMessage="Nenhuma tarefa encontrada">
                 <f:facet name="header">
                     Lista de Tarefas
                 </f:facet>
@@ -26,8 +58,7 @@
                 </p:column>
 
                 <p:column headerText="Ações">
-                    <p:commandButton value="Editar" oncomplete="PF('modalEditar').show()" 
-                        update=":dialogs:editarTarefa">
+                    <p:commandButton value="Editar" oncomplete="PF('modalEditar').show()" update=":dialogs:editarTarefa">
                         <f:setPropertyActionListener value="#{tarefa}" target="#{tarefaController.tarefa}" />
                         <p:resetInput target=":dialogs:editarTarefa" />
                     </p:commandButton>
@@ -38,6 +69,7 @@
                         <f:setPropertyActionListener value="#{tarefa}" target="#{tarefaController.tarefa}" />
                     </p:commandButton>
                 </p:column>
+                
             </p:dataTable>
         </h:form>
 
@@ -57,7 +89,7 @@
                             <p:outputLabel for="@next" value="Responsável"/>
                             <p:selectOneMenu id="responsavel" value="#{tarefaController.tarefa.responsavel}" effect="fold" editable="true" >
                                 <f:selectItem itemLabel="Select" itemValue=""/>
-                                <f:selectItems value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" itemLabel="#{responsavel.nome}" converter="responsavelConverter"/>
+                                <f:selectItems value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" itemLabel="#{responsavel.nome}"/>
                             </p:selectOneMenu>
                         </div>
                         <div class="field">
