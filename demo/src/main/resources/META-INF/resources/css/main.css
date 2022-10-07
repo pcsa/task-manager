@@ -1,0 +1,66 @@
+.navigator_div {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    width: 15%;
+}
+
+.content_base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.form_search {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    width: 80%;
+    min-height: 200px;
+    border: 1px solid lightgray;
+    padding: 0 8px;
+}
+
+.form_list {
+    width: 80%;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+}
+
+.max_width_line {
+    width: 50%;
+}
+
+.search_field_label {
+    width: 10%;
+    min-width: 50px;
+    margin-right: 1%;
+}
+
+.search_row_content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-direction: row;
+    width: 100%;
+}
+.search_wrap_row_content {
+    
+}
+
+#filtragemDeTarefas
+.search_select_one {
+    width: 20%;
+    margin-right: 10%;
+}
+
+#formList
+.action_buttons {
+    margin: 1%;
+}

@@ -11,22 +11,15 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <h:outputStylesheet library="css" name="main.css" />
         <title>Gerenciador de Tarefas</title>
     </h:head>
-    <h:body>
-        <div class="ui-g">
-            <div class="ui-g-12">
-                <p:toolbar>
-                    <f:facet name="left">
-                        <p:button href="/" value="Listar Tarefas" />
-                        <p:button href="/nova-tarefa" value="Nova Tarefa" />
-                    </f:facet>
-                </p:toolbar>
-            </div>
-            <div class="ui-g-12">
-                <ui:insert name="content" />
-            </div>
+    <h:body class="content_base">
+        <div class="navigator_div">
+            <p:button href="/" value="Listar Tarefas" class="navigator_button" />
+            <p:button href="/nova-tarefa" value="Nova Tarefa" class="navigator_button" />
         </div>
+        <ui:insert name="content" />
     </h:body>
 </f:view>
 </html>

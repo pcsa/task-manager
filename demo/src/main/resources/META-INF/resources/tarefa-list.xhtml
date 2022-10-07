@@ -8,43 +8,53 @@
                 template="layout.xhtml">
     <ui:define name="content">
 
-        <h:form id="filtragemDeTarefas">
+        <h:form id="filtragemDeTarefas" class="form_search">
+            <div class="search_row_content">
+                <div class="search_field_label">
+                    <p:outputLabel for="@next" value="Número: "/>
+                </div>
+                <p:inputNumber id="numeroFiltro" value="#{filtroBean.tarefa.id}" />
+            </div>
 
-            <p:outputLabel for="@next" value="Número: " />
-            <p:inputNumber id="numeroFiltro" value="#{filtroBean.tarefa.id}" />
+            <div class="search_row_content">
+                <div class="search_field_label">
+                    <p:outputLabel for="@next" value="Título/Descrição: " />
+                </div>
+                <p:inputText id="descricaoFiltro" value="#{filtroBean.tarefa.descricao}" class="max_width_line" />
+            </div>
 
-            <p:outputLabel for="@next" value="Título/Descrição: " />
-            <p:inputText id="descricaoFiltro" value="#{filtroBean.tarefa.descricao}" />
-
-            <div class="field col-12 md:col-4">
-                <p:outputLabel for="@next" value="Responsável: "/>
-                <p:selectOneMenu id="responsavelFiltro" value="#{filtroBean.tarefa.responsavel}" effect="fold" editable="true">
+            <div class="search_row_content">
+                <div class="search_field_label">
+                    <p:outputLabel for="@next" value="Responsável: "/>
+                </div>
+                <p:selectOneMenu id="responsavelFiltro" value="#{filtroBean.tarefa.responsavel}" editable="true" class="search_select_one">
                     <f:selectItem itemLabel="Select" itemValue="#{null}" noSelectionOption="true" />
                     <f:selectItems  value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" 
                                     itemLabel="#{responsavel.nome}" />
                 </p:selectOneMenu>
-            </div>
 
-            <div class="field col-12 md:col-4">
-                <p:outputLabel for="@next" value="Situação: "/>
-                <p:selectOneMenu id="situacaoFiltro" value="#{filtroBean.tarefa.situacao}">
+                <div class="search_field_label">
+                    <p:outputLabel for="@next" value="Situação: "/>
+                </div>
+                <p:selectOneMenu id="situacaoFiltro" value="#{filtroBean.tarefa.situacao}" class="search_select_one">
                     <f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
                     <f:selectItems value="#{situacaoController.options}"/>
                 </p:selectOneMenu>
-            </div>
 
-            <p:commandButton value="Buscar Tarefas" update=":form:listaDeTarefas"> 
-                <f:setPropertyActionListener value="#{filtroBean.tarefas}" target="#{tarefaController.tarefasFiltradas}" />
-            </p:commandButton>
+                <p:commandButton value="Buscar Tarefas" update=":formList:listaDeTarefas"> 
+                    <f:setPropertyActionListener value="#{filtroBean.tarefas}" target="#{tarefaController.tarefasFiltradas}" />
+                </p:commandButton>
+            </div>
         </h:form>
 
-        <h:form id="form">
+        <h:form id="formList" class="form_list">
             <p:growl id="messages" showDetail="true" />
-            <p:dataTable id="listaDeTarefas" var="tarefa" value="#{tarefaController.tarefasFiltradas}" rowKey="#{tarefa.id}" 
-            stripedRows="true" emptyMessage="Nenhuma tarefa encontrada">
-                <f:facet name="header">
+            <p:dataTable id="listaDeTarefas" var="tarefa" value="#{tarefaController.tarefasFiltradas}"
+                         rowKey="#{tarefa.id}" stripedRows="true" emptyMessage="Nenhuma tarefa encontrada">
+                <f:facet name="header" style="align-items: center;">
                     Lista de Tarefas
                 </f:facet>
+
                 <p:column headerText="Número">
                     <h:outputText value="#{tarefa.id}" />
                 </p:column>
@@ -58,18 +68,17 @@
                 </p:column>
 
                 <p:column headerText="Ações">
-                    <p:commandButton value="Editar" oncomplete="PF('modalEditar').show()" update=":dialogs:editarTarefa">
+                    <p:commandButton class="action_buttons" value="Editar" oncomplete="PF('modalEditar').show()" update=":dialogs:editarTarefa">
                         <f:setPropertyActionListener value="#{tarefa}" target="#{tarefaController.tarefa}" />
                         <p:resetInput target=":dialogs:editarTarefa" />
                     </p:commandButton>
-                    <p:commandButton value="Excluir" oncomplete="PF('modalDeletar').show()">
+                    <p:commandButton class="action_buttons" value="Excluir" oncomplete="PF('modalDeletar').show()">
                         <f:setPropertyActionListener value="#{tarefa}" target="#{tarefaController.tarefa}" />
                     </p:commandButton>
-                    <p:commandButton value="Concluir" oncomplete="PF('modalConcluir').show()">
+                    <p:commandButton class="action_buttons" value="Concluir" oncomplete="PF('modalConcluir').show()">
                         <f:setPropertyActionListener value="#{tarefa}" target="#{tarefaController.tarefa}" />
                     </p:commandButton>
                 </p:column>
-                
             </p:dataTable>
         </h:form>
 
@@ -83,19 +92,20 @@
                         </div>
                         <div class="field">
                             <p:outputLabel for="descricao" value="Descrição: " />
-                            <p:inputText id="descricao" value="#{tarefaController.tarefa.descricao}" />
+                            <p:inputTextarea rows="10" cols="50" id="descricao" value="#{tarefaController.tarefa.descricao}" autoResize="false" />
                         </div>
                         <div class="field">
                             <p:outputLabel for="@next" value="Responsável"/>
                             <p:selectOneMenu id="responsavel" value="#{tarefaController.tarefa.responsavel}" effect="fold" editable="true" >
                                 <f:selectItem itemLabel="Select" itemValue=""/>
-                                <f:selectItems value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" itemLabel="#{responsavel.nome}"/>
+                                <f:selectItems  value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" 
+                                                itemLabel="#{responsavel.nome}"/>
                             </p:selectOneMenu>
                         </div>
                         <div class="field">
                             <p:outputLabel for="@next" value="Prioridade"/>
                             <p:selectOneMenu id="prioridade" value="#{tarefaController.tarefa.prioridade}"
-                                            hideNoSelectionOption="#{not empty tarefaController.tarefa.prioridade}">
+                                             hideNoSelectionOption="#{not empty tarefaController.tarefa.prioridade}">
                                 <p:ajax update="@this" process="@this"/>
                                 <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true"/>
                                 <f:selectItems value="#{prioridadeController.options}"/>
@@ -110,26 +120,26 @@
 
                 <f:facet name="footer">
                     <p:commandButton value="Save" icon="pi pi-check" actionListener="#{tarefaController.salvar}"
-                        update="editarTarefa" process="editarTarefa @this" />
+                                     update="editarTarefa" process="editarTarefa @this" />
                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('modalEditar').hide()"
-                        class="ui-button-secondary" type="button" />
+                                     class="ui-button-secondary" type="button" />
                 </f:facet>
             </p:dialog>
 
             <p:confirmDialog widgetVar="modalDeletar" showEffect="fade" width="300"
-                message="Tem certeza que deseja excluir está tarefa?" header="Confirmar" severity="warn">
+                             message="Tem certeza que deseja excluir está tarefa?" header="Confirmar" severity="warn">
                 <p:commandButton value="Sim" icon="pi pi-check" actionListener="#{tarefaController.deletar}"
-                    process="@this" oncomplete="PF('modalDeletar').hide()" />
+                                 process="@this" oncomplete="PF('modalDeletar').hide()" />
                 <p:commandButton value="Não" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                    onclick="PF('modalDeletar').hide()" />
+                                 onclick="PF('modalDeletar').hide()" />
             </p:confirmDialog>
 
             <p:confirmDialog widgetVar="modalConcluir" showEffect="fade" width="300"
-                message="Tem certeza que deseja confluir á tarefa?" header="Confirmar" severity="warn">
+                             message="Tem certeza que deseja confluir á tarefa?" header="Confirmar" severity="warn">
                 <p:commandButton value="Sim" icon="pi pi-check" actionListener="#{tarefaController.concluir}"
-                    process="@this" oncomplete="PF('modalConcluir').hide()" />
+                                 process="@this" oncomplete="PF('modalConcluir').hide()" />
                 <p:commandButton value="Não" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                    onclick="PF('modalConcluir').hide()" />
+                                 onclick="PF('modalConcluir').hide()" />
             </p:confirmDialog>
         </h:form>
     </ui:define>
