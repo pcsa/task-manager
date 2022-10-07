@@ -25,8 +25,8 @@ import lombok.Setter;
 @ViewScoped
 public class TarefaController implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static final String UPDATE_JSF_MENSSAGE = "form:messages";
-    private static final String UPDATE_JSF_LISTTABLE = "form:listaDeTarefas";
+    private static final String UPDATE_JSF_MENSSAGE = "formList:messages";
+    private static final String UPDATE_JSF_LISTTABLE = "formList:listaDeTarefas";
     
     @Autowired
     private transient TarefaRepository tarefaRepository;
