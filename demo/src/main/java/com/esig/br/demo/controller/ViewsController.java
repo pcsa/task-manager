@@ -10,7 +10,7 @@ public class ViewsController implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("forward:/tarefa-list.jsf");
-        registry.addViewController("/hello") .setViewName("forward:/tarefa-form.jsf");
+        registry.addViewController("/nova-tarefa") .setViewName("forward:/tarefa-form.jsf");
         registry.addViewController("/error") .setViewName("forward:/tarefa-list.jsf");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
         }
