@@ -2,6 +2,7 @@ package com.esig.br.demo.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -79,5 +80,9 @@ public class TarefaController implements Serializable {
         tarefa = new Tarefa();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa Concluida"));
         PrimeFaces.current().ajax().update(UPDATE_JSF_MENSSAGE, UPDATE_JSF_LISTTABLE);
+    }
+
+    public Date getDataAtual() {
+        return new Date();
     }
 }
