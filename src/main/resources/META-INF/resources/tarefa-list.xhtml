@@ -115,7 +115,8 @@
                         </div>
                         <div class="field">
                             <p:outputLabel for="deadline" value="Deadline: "/>
-                            <p:datePicker id="deadline" value="#{tarefaController.tarefa.deadline}" showIcon="true"/>
+                            <p:datePicker id="deadline" value="#{tarefaController.tarefa.deadline}" showIcon="true" 
+                                          mindate="#{tarefaController.dataAtual}" locale="pt_BR" pattern="dd/MM/yyyy"/>
                         </div>
                     </p:outputPanel>
                 </p:outputPanel>

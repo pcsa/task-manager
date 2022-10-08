@@ -37,7 +37,8 @@
                     <p:message for="prioridade"/>
                 
                     <p:outputLabel for="@next" value="Deadline: "/>
-                    <p:datePicker id="deadline" value="#{tarefaController.tarefa.deadline}" showIcon="true" />
+                    <p:datePicker id="deadline" value="#{tarefaController.tarefa.deadline}" showIcon="true" 
+                                  mindate="#{tarefaController.dataAtual}" locale="pt_BR" pattern="dd/MM/yyyy" />
                     
                     <p:commandButton value="Salvar" action="#{tarefaController.salvar}" update="tarefaForm" />
                 </p:panelGrid>
