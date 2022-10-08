@@ -3,6 +3,8 @@ package com.esig.br.demo.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.faces.view.ViewScoped;
 
@@ -37,11 +39,11 @@ public class FiltroBean implements Serializable {
     }
 
     private void filterBySituacao() {
-        tarefas = tarefas.stream().filter(t-> t.getSituacao().equals(tarefa.getSituacao())).toList();
+        tarefas = tarefas.stream().filter(t-> t.getSituacao().equals(tarefa.getSituacao())).collect(Collectors.toList());
     }
 
     private void filterByResponsavel() {
-        tarefas = tarefas.stream().filter(t-> t.getResponsavel().getNome().equals(tarefa.getResponsavel().getNome())).toList();
+        tarefas = tarefas.stream().filter(t-> t.getResponsavel().getNome().equals(tarefa.getResponsavel().getNome())).collect(Collectors.toList());
     }
 
     private void filterByTituloOuDescricao() {
@@ -54,10 +56,10 @@ public class FiltroBean implements Serializable {
                 return text.contains(descricao);
             }
             return descricao.contains(text);
-        }).toList();
+        }).collect(Collectors.toList());
     }
 
     private void filterByNumero() {
-        tarefas = tarefas.stream().filter(t-> t.getId().equals(tarefa.getId())).toList();
+        tarefas = tarefas.stream().filter(t-> t.getId().equals(tarefa.getId())).collect(Collectors.toList());
     }
 }
