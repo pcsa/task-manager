@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<joinfaces.version>4.7.0</joinfaces.version>
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
 	<dependencyManagement>
