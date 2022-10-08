@@ -51,7 +51,7 @@ public class TarefaController implements Serializable {
         boolean updated = tarefa.getId() != null;
         tarefa.setResponsavel(responsavelController.saveOrUpdateAndFlush(tarefa.getResponsavel()));
         tarefa.setSituacao(Situacao.EM_ANDAMENTO);
-        tarefaRepository.save(tarefa);
+        tarefaRepository.saveAndFlush(tarefa);
         tarefa = new Tarefa();
         if(updated){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa Atualizada"));
@@ -75,7 +75,7 @@ public class TarefaController implements Serializable {
     public void concluir() {
         if(tarefa.getSituacao()==null || tarefa.getSituacao().equals(Situacao.FINALIZADO)) return;
         tarefa.setSituacao(Situacao.FINALIZADO);
-        tarefaRepository.save(tarefa);
+        tarefaRepository.saveAndFlush(tarefa);
         tarefa = new Tarefa();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa Concluida"));
         PrimeFaces.current().ajax().update(UPDATE_JSF_MENSSAGE, UPDATE_JSF_LISTTABLE);

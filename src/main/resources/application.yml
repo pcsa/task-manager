@@ -1,19 +1,16 @@
 joinfaces:
   jsf:
     PROJECT_STAGE: Development
-server:
-  port: '8080'
-
 spring:
   profiles:
-    active: "prod"
+    active: "dev"
 
 ---
 
 spring:
   config:
     activate:
-      on-profile: dev
+      on-profile: test
   datasource:
     url: 'jdbc:h2:~/esig/dados'
     username: admin
@@ -40,13 +37,15 @@ spring:
   output:
     ansi:
       enabled: always
+  server:
+  port: '8085'
 
 ---
 
 spring:
   config:
       activate:
-        on-profile: dev2
+        on-profile: dev
   main:
     banner-mode: off
   datasource:
@@ -83,7 +82,7 @@ spring:
     properties:
       hibernate:
         hbm2ddl:
-          auto: create
+          auto: validate
         show_sql: false
         use_sql_comments: false
         format_sql: false
