@@ -58,7 +58,7 @@ public class TarefaController implements Serializable {
             PrimeFaces.current().executeScript("PF('modalEditar').hide()");
             PrimeFaces.current().ajax().update(UPDATE_JSF_MENSSAGE, UPDATE_JSF_LISTTABLE);
         }
-        return "/tarefa-list.xhtml?faces-redirect=true";
+        return "/tarefa-list.jsf?faces-redirect=true";
     }
 
     public void deletar() {

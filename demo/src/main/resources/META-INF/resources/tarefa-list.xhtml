@@ -27,7 +27,7 @@
                 <div class="search_field_label">
                     <p:outputLabel for="@next" value="Responsável: "/>
                 </div>
-                <p:selectOneMenu id="responsavelFiltro" value="#{filtroBean.tarefa.responsavel}" editable="true" class="search_select_one">
+                <p:selectOneMenu id="responsavelFiltro" value="#{filtroBean.tarefa.responsavel}" dynamic="true" class="search_select_one">
                     <f:selectItem itemLabel="Select" itemValue="#{null}" noSelectionOption="true" />
                     <f:selectItems  value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" 
                                     itemLabel="#{responsavel.nome}" />
@@ -36,7 +36,7 @@
                 <div class="search_field_label">
                     <p:outputLabel for="@next" value="Situação: "/>
                 </div>
-                <p:selectOneMenu id="situacaoFiltro" value="#{filtroBean.tarefa.situacao}" class="search_select_one">
+                <p:selectOneMenu id="situacaoFiltro" value="#{filtroBean.tarefa.situacao}" class="search_select_one" >
                     <f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
                     <f:selectItems value="#{situacaoController.options}"/>
                 </p:selectOneMenu>
@@ -87,33 +87,35 @@
                 <p:outputPanel id="editarTarefa" class="ui-fluid">
                     <p:outputPanel rendered="#{not empty tarefaController.tarefa}">
                         <div class="field">
-                            <p:outputLabel for="titulo">Título</p:outputLabel>
-                            <p:inputText id="titulo" value="#{tarefaController.tarefa.titulo}" required="true" />
+                            <p:outputLabel for="titulo" value="Título: " />
+                            <p:inputText id="titulo" value="#{tarefaController.tarefa.titulo}" required="true" 
+                                         requiredMessage="Sua tarefa precisa de um título."  />
+                            <p:message for="titulo"/>
                         </div>
                         <div class="field">
                             <p:outputLabel for="descricao" value="Descrição: " />
                             <p:inputTextarea rows="10" cols="50" id="descricao" value="#{tarefaController.tarefa.descricao}" autoResize="false" />
                         </div>
                         <div class="field">
-                            <p:outputLabel for="@next" value="Responsável"/>
-                            <p:selectOneMenu id="responsavel" value="#{tarefaController.tarefa.responsavel}" effect="fold" editable="true" >
-                                <f:selectItem itemLabel="Select" itemValue=""/>
+                            <p:outputLabel for="@next" value="Responsável: "/>
+                            <p:selectOneMenu id="responsavel" value="#{tarefaController.tarefa.responsavel}" editable="true" >
+                                <f:selectItem itemLabel="Select" itemValue="#{null}"/>
                                 <f:selectItems  value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" 
                                                 itemLabel="#{responsavel.nome}"/>
                             </p:selectOneMenu>
                         </div>
                         <div class="field">
-                            <p:outputLabel for="@next" value="Prioridade"/>
-                            <p:selectOneMenu id="prioridade" value="#{tarefaController.tarefa.prioridade}"
-                                             hideNoSelectionOption="#{not empty tarefaController.tarefa.prioridade}">
+                            <p:outputLabel for="@next" value="Prioridade: "/>
+                            <p:selectOneMenu id="prioridade" value="#{tarefaController.tarefa.prioridade}" required="true"
+                                             requiredMessage="Este campo é obrigatório.">
                                 <p:ajax update="@this" process="@this"/>
-                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true"/>
                                 <f:selectItems value="#{prioridadeController.options}"/>
                             </p:selectOneMenu>
+                            <p:message for="prioridade"/>
                         </div>
                         <div class="field">
-                            <p:outputLabel for="deadline" value="deadline"/>
-                            <p:datePicker id="deadline" value="#{tarefaController.tarefa.deadline}" />
+                            <p:outputLabel for="deadline" value="Deadline: "/>
+                            <p:datePicker id="deadline" value="#{tarefaController.tarefa.deadline}" showIcon="true"/>
                         </div>
                     </p:outputPanel>
                 </p:outputPanel>

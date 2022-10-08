@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,8 @@ import com.esig.br.demo.repository.ResponsavelRepository;
 @ViewScoped
 public class ResponsavelController implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    private static final String UPDATE_JSF_LISTFILTER = "filtragemDeTarefas:responsavelFiltro";
 
     @Autowired
     transient ResponsavelRepository responsavelRepository;
@@ -32,11 +35,12 @@ public class ResponsavelController implements Serializable {
     }
 
     public Responsavel saveOrUpdateAndFlush(Responsavel responsavel){
+        if(responsavel == null) return null;
         if(!responsaveisMap.containsKey(responsavel.getNome())) {
             responsavel = responsavelRepository.saveAndFlush(responsavel);
             responsaveisMap.put(responsavel.getNome(), responsavel);
-            return responsavel;
         }
+        PrimeFaces.current().ajax().update(UPDATE_JSF_LISTFILTER);
         return responsaveisMap.get(responsavel.getNome());
     }
 

@@ -9,34 +9,38 @@
     <ui:define name="content">
         <h:form id="tarefaForm">
             <p:panel header="Tarefa">
-                <h:panelGrid columns="1">
-
+                <p:panelGrid columns="3" styleClass="form_task_grid">
                     <p:outputLabel for="@next" value="Título: " />
-                    <p:inputText id="titulo" value="#{tarefaController.tarefa.titulo}" />
+                    <p:inputText id="titulo" value="#{tarefaController.tarefa.titulo}" required="true" 
+                                 requiredMessage="Sua tarefa precisa de um título." />
+                    <p:message for="titulo"/>
                     
                     <p:outputLabel for="@next" value="Descrição: " />
                     <p:inputTextarea rows="10" cols="50" id="descricao" value="#{tarefaController.tarefa.descricao}" autoResize="false" />
+                    <p:message for="descricao"/>
                     
-                    <p:outputLabel for="@next" value="Responsável"/>
+                    <p:outputLabel for="@next" value="Responsável: "/>
                     <p:selectOneMenu id="responsavel" value="#{tarefaController.tarefa.responsavel}" editable="true" >
-                        <f:selectItem itemLabel="Select" itemValue=""/>
+                        <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true"/>
                         <f:selectItems  value="#{responsavelController.responsaveis}" var="responsavel" itemValue="#{responsavel}" 
                                         itemLabel="#{responsavel.nome}" />
                     </p:selectOneMenu>
+                    <p:message for="responsavel"/>
 
-                    <p:outputLabel for="@next" value="Prioridade"/>
-                    <p:selectOneMenu id="prioridade" value="#{tarefaController.tarefa.prioridade}"
-                                     hideNoSelectionOption="#{not empty tarefaController.tarefa.prioridade}">
+                    <p:outputLabel for="@next" value="Prioridade: "/>
+                    <p:selectOneMenu id="prioridade" value="#{tarefaController.tarefa.prioridade}" required="true"
+                                     requiredMessage="Este campo é obrigatório.">
                         <p:ajax update="@this" process="@this"/>
-                        <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="false" />
                         <f:selectItems value="#{prioridadeController.options}"/>
                     </p:selectOneMenu>
+                    <p:message for="prioridade"/>
                 
-                    <p:outputLabel for="@next" value="deadline"/>
-                    <p:datePicker id="deadline" value="#{tarefaController.tarefa.deadline}" />
+                    <p:outputLabel for="@next" value="Deadline: "/>
+                    <p:datePicker id="deadline" value="#{tarefaController.tarefa.deadline}" showIcon="true" />
                     
-                    <p:commandButton value="Salvar" action="#{tarefaController.salvar}" />
-                </h:panelGrid>
+                    <p:commandButton value="Salvar" action="#{tarefaController.salvar}" update="tarefaForm" />
+                </p:panelGrid>
             </p:panel>
         </h:form>
     </ui:define>
