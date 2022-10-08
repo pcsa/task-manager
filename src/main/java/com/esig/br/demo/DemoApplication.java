@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esig.br.demo.domain.model.Responsavel;
 import com.esig.br.demo.domain.model.Tarefa;
@@ -18,6 +20,9 @@ import com.esig.br.demo.repository.TarefaRepository;
 
 @SpringBootApplication
 public class DemoApplication {
+	
+	@Autowired
+	Environment env;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -25,6 +30,7 @@ public class DemoApplication {
 	
 	@Bean
 	CommandLineRunner init (TarefaRepository tarefaRepository, ResponsavelRepository responsavelRepository){
+		if(env.getActiveProfiles()[0].equals("prod")) return null;
 		return args -> {
 			List<Responsavel> responsaveis = Arrays.asList(
 				new Responsavel(null, "Paulo"),

@@ -1,7 +1,19 @@
 joinfaces:
   jsf:
     PROJECT_STAGE: Development
+server:
+  port: '8080'
+
 spring:
+  profiles:
+    active: "prod"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
   datasource:
     url: 'jdbc:h2:~/esig/dados'
     username: admin
@@ -28,6 +40,53 @@ spring:
   output:
     ansi:
       enabled: always
-server:
-  port: '8080'
 
+---
+
+spring:
+  config:
+      activate:
+        on-profile: dev2
+  main:
+    banner-mode: off
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/task-manager'
+    username: postgres
+    password: 12345
+  jpa:
+    defer-datasource-initialization: true
+    generate-ddl: false
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: create
+        show_sql: false
+        use_sql_comments: false
+        format_sql: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+---
+
+spring:
+  config:
+      activate:
+        on-profile: prod
+  main:
+    banner-mode: off
+  datasource:
+    url: ${DATABASE_URL}
+  jpa:
+    defer-datasource-initialization: true
+    generate-ddl: false
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: create
+        show_sql: false
+        use_sql_comments: false
+        format_sql: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
