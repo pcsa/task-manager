@@ -3,7 +3,7 @@ joinfaces:
     PROJECT_STAGE: Development
 spring:
   profiles:
-    active: "dev"
+    active: "prod"
 
 ---
 
