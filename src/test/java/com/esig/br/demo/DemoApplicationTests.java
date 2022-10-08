@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Date;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +31,10 @@ class DemoApplicationTests {
 	@Autowired
 	ResponsavelRepository responsavelRepository;
 
-	private Tarefa tarefa;
-	private Responsavel responsavel;
+	private static Tarefa tarefa;
+	private static Responsavel responsavel;
 
-	@BeforeAll
+	@BeforeEach
 	public void setupTest() {
 		tarefa = new Tarefa(null,"TestTarefa", "Testando função salvar no banco", null, Prioridade.ALTA, Situacao.EM_ANDAMENTO, new Date());
 		responsavel = new Responsavel(null, "TestResponsavel");
