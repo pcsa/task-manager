@@ -24,7 +24,7 @@ import com.esig.br.demo.repository.ResponsavelRepository;
 public class ResponsavelController implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Logger logger = LoggerFactory.logger(TarefaController.class);
+    private final Logger logger = LoggerFactory.logger(ResponsavelController.class);
 
     private static final String UPDATE_JSF_LISTFILTER = "filtragemDeTarefas:responsavelFiltro";
 
