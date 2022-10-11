@@ -68,6 +68,10 @@ spring:
   output:
     ansi:
       enabled: always
+logging:
+  level: 
+    com:
+      esig: DEBUG
 
 ---
 
