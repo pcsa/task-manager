@@ -38,6 +38,9 @@ public class ResponsavelController implements Serializable {
         try {
             List<Responsavel> responsaveis = responsavelRepository.findAll();
             responsaveis.forEach(r -> responsaveisMap.put(r.getNome(), r));
+            
+            logger.debug("Responsaveis lidos e carregados do repositorio");
+            
         } catch (Exception e) {
             logger.error("Falha ao tentar ler os responsaveis do banco de dados. causa: "+e.getClass().getSimpleName());
         }
@@ -46,11 +49,15 @@ public class ResponsavelController implements Serializable {
     public Responsavel saveOrUpdateAndFlush(Responsavel responsavel){
         try {
             if(responsavel == null) return null;
+            
             if(!responsaveisMap.containsKey(responsavel.getNome())) {
                 responsavel = responsavelRepository.saveAndFlush(responsavel);
                 responsaveisMap.put(responsavel.getNome(), responsavel);
             }
+            
             PrimeFaces.current().ajax().update(UPDATE_JSF_LISTFILTER);
+            logger.debug("Responsavel salvo com sucesso");
+            
             return responsaveisMap.get(responsavel.getNome());
         } catch (Exception e) {
             throw new ResponsavelCreateOrUpdateException(e);

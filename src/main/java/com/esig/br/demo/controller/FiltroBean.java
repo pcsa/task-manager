@@ -35,13 +35,16 @@ public class FiltroBean implements Serializable {
         tarefas = new ArrayList<>();
         try {
             tarefas.addAll(tarefaController.getTarefas());
+            
             if(tarefa.getId() != null) filterByNumero();
             if(tarefa.getDescricao() != null) filterByTituloOuDescricao();
             if(tarefa.getResponsavel() != null) filterByResponsavel();
             if(tarefa.getSituacao() != null) filterBySituacao();
+
         } catch (Exception e) {
             logger.error("Falha ao tentar filtrar as tarefas. causa: "+e.getClass().getSimpleName());
         }
+
         return tarefas;
     }
 
@@ -57,11 +60,14 @@ public class FiltroBean implements Serializable {
         tarefas = tarefas.stream().filter(t-> { 
             String text = "";
             String descricao = tarefa.getDescricao().toLowerCase();
+            
             if(t.getTitulo() != null) text = t.getTitulo().toLowerCase();
             if(t.getDescricao() != null) text += t.getDescricao().toLowerCase();
+            
             if(text.length() > descricao.length()){
                 return text.contains(descricao);
             }
+            
             return descricao.contains(text);
         }).collect(Collectors.toList());
     }
