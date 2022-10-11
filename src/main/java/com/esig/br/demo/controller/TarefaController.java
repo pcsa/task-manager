@@ -54,6 +54,9 @@ public class TarefaController implements Serializable {
         try {
             tarefas = tarefaRepository.findAll();
             tarefasFiltradas.addAll(tarefas);
+            
+            logger.debug("Tarefas lidas e carregadas do repositorio");
+
         } catch (Exception e) {
             logger.error("Falha ao tentar ler as terefas do banco de dados. causa: "+e.getClass().getSimpleName());
         }
@@ -62,16 +65,22 @@ public class TarefaController implements Serializable {
     public String salvar() {
         try {
             boolean updated = tarefa.getId() != null;
+            
             tarefa.setResponsavel(responsavelController.saveOrUpdateAndFlush(tarefa.getResponsavel()));
             tarefa.setSituacao(Situacao.EM_ANDAMENTO);
+            
             tarefaRepository.saveAndFlush(tarefa);
+            
             tarefa = new Tarefa();
+            
             if(updated){
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa Atualizada"));
                 PrimeFaces.current().executeScript("PF('modalEditar').hide()");
                 PrimeFaces.current().ajax().update(UPDATE_JSF_MENSSAGE, UPDATE_JSF_LISTTABLE);
             }
+            
             logger.debug("Tarefa salva com sucesso");
+            
             return "/tarefa-list.jsf?faces-redirect=true";
         } catch (Exception e) {
             throw new TarefaCreateOrUpdateException(e);
@@ -84,7 +93,9 @@ public class TarefaController implements Serializable {
                 tarefaRepository.delete(tarefa);
                 tarefas.remove(tarefa);
                 tarefasFiltradas.remove(tarefa);
+                
                 tarefa = new Tarefa();
+                
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa Excluida"));
                 PrimeFaces.current().ajax().update(UPDATE_JSF_MENSSAGE, UPDATE_JSF_LISTTABLE);
                 logger.debug("Tarefa excluída com sucesso");
@@ -96,13 +107,17 @@ public class TarefaController implements Serializable {
 
     public void concluir() {
         try {
-            if(tarefa.getSituacao()==null || tarefa.getSituacao().equals(Situacao.FINALIZADO)) return;
+            if( tarefa.getSituacao() == null || tarefa.getSituacao().equals(Situacao.FINALIZADO) ) return;
+            
             tarefa.setSituacao(Situacao.FINALIZADO);
             tarefaRepository.saveAndFlush(tarefa);
+            
             tarefa = new Tarefa();
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa Concluida"));
             PrimeFaces.current().ajax().update(UPDATE_JSF_MENSSAGE, UPDATE_JSF_LISTTABLE);
             logger.debug("Tarefa concluída com sucesso");
+            
         } catch (Exception e) {
             logger.error("Tarefa não pôde ser concluída. causa: "+e.getClass().getSimpleName());
         }

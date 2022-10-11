@@ -65,6 +65,13 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+  output:
+    ansi:
+      enabled: always
+logging:
+  level: 
+    com:
+      esig: DEBUG
 
 ---
 
