@@ -9,17 +9,22 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.jboss.logging.Logger;
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.esig.br.demo.domain.model.Responsavel;
+import com.esig.br.demo.exceptions.ResponsavelCreateOrUpdateException;
 import com.esig.br.demo.repository.ResponsavelRepository;
 
 @Component
 @ViewScoped
 public class ResponsavelController implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    private final Logger logger = LoggerFactory.logger(TarefaController.class);
 
     private static final String UPDATE_JSF_LISTFILTER = "filtragemDeTarefas:responsavelFiltro";
 
@@ -30,18 +35,26 @@ public class ResponsavelController implements Serializable {
 
     @PostConstruct
     public void loadData() {
-        List<Responsavel> responsaveis = responsavelRepository.findAll();
-        responsaveis.forEach(r -> responsaveisMap.put(r.getNome(), r));
+        try {
+            List<Responsavel> responsaveis = responsavelRepository.findAll();
+            responsaveis.forEach(r -> responsaveisMap.put(r.getNome(), r));
+        } catch (Exception e) {
+            logger.error("Falha ao tentar ler os responsaveis do banco de dados. causa: "+e.getClass().getSimpleName());
+        }
     }
 
     public Responsavel saveOrUpdateAndFlush(Responsavel responsavel){
-        if(responsavel == null) return null;
-        if(!responsaveisMap.containsKey(responsavel.getNome())) {
-            responsavel = responsavelRepository.saveAndFlush(responsavel);
-            responsaveisMap.put(responsavel.getNome(), responsavel);
+        try {
+            if(responsavel == null) return null;
+            if(!responsaveisMap.containsKey(responsavel.getNome())) {
+                responsavel = responsavelRepository.saveAndFlush(responsavel);
+                responsaveisMap.put(responsavel.getNome(), responsavel);
+            }
+            PrimeFaces.current().ajax().update(UPDATE_JSF_LISTFILTER);
+            return responsaveisMap.get(responsavel.getNome());
+        } catch (Exception e) {
+            throw new ResponsavelCreateOrUpdateException(e);
         }
-        PrimeFaces.current().ajax().update(UPDATE_JSF_LISTFILTER);
-        return responsaveisMap.get(responsavel.getNome());
     }
 
     public List<Responsavel> getResponsaveis(){

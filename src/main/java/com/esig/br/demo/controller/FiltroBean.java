@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import javax.faces.view.ViewScoped;
 
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,8 @@ import lombok.Setter;
 public class FiltroBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private final Logger logger = LoggerFactory.logger(FiltroBean.class);
+
     @Autowired
     TarefaController tarefaController;
 
@@ -29,11 +33,15 @@ public class FiltroBean implements Serializable {
 
     public List<Tarefa> getTarefas() {
         tarefas = new ArrayList<>();
-        tarefas.addAll(tarefaController.getTarefas());
-        if(tarefa.getId() != null) filterByNumero();
-        if(tarefa.getDescricao() != null) filterByTituloOuDescricao();
-        if(tarefa.getResponsavel() != null) filterByResponsavel();
-        if(tarefa.getSituacao() != null) filterBySituacao();
+        try {
+            tarefas.addAll(tarefaController.getTarefas());
+            if(tarefa.getId() != null) filterByNumero();
+            if(tarefa.getDescricao() != null) filterByTituloOuDescricao();
+            if(tarefa.getResponsavel() != null) filterByResponsavel();
+            if(tarefa.getSituacao() != null) filterBySituacao();
+        } catch (Exception e) {
+            logger.error("Falha ao tentar filtrar as tarefas. causa: "+e.getClass().getSimpleName());
+        }
         return tarefas;
     }
 
